@@ -50,39 +50,31 @@
 
     <div id="loader" class="loader-text">Нажми на экран для загрузки...</div>
 
-    <!-- Картинка и звук скримера -->
-    <img id="screamer" src="00066555729790a75e0739700720bc94.jpg" alt="Screamer">
-    <audio id="screamSound" src="gdfgdgf.mp3" preload="auto"></audio>
+        <script>
+        // Предзагрузка звука в память сразу при открытии страницы
+        var screamAudio = document.getElementById('screamSound');
+        if (screamAudio) {
+            screamAudio.load();
+        }
 
-    <script>
         function startScreamer() {
             var audio = document.getElementById('screamSound');
-            var img = document.getElementById('screamer');
-            var loader = document.getElementById('loader');
-
-            // 1. Показываем картинку и скрываем текст
-            img.style.display = 'block';
-            if (loader) loader.style.display = 'none';
-
-            // 2. Воспроизводим звук
+            
+            // Сбрасываем звук на самое начало и сразу воспроизводим
             audio.currentTime = 0;
-            var playPromise = audio.play();
+            audio.play().catch(function(error) {
+                console.log("Ошибка: ", error);
+            });
 
-            if (playPromise !== undefined) {
-                playPromise.catch(function(error) {
-                    console.log("Ошибка воспроизведения аудио:", error);
-                });
-            }
+            // Включаем картинку одновременно со звуком
+            document.getElementById('screamer').style.display = 'block';
 
-            // 3. Переход в полноэкранный режим
-            var docEl = document.documentElement;
-            if (docEl.requestFullscreen) {
-                docEl.requestFullscreen().catch(function(){});
-            } else if (docEl.webkitRequestFullscreen) {
-                docEl.webkitRequestFullscreen().catch(function(){});
+            // Полноэкранный режим
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
             }
         }
     </script>
-</body>
+      </body>
 </html>
-            
+      
