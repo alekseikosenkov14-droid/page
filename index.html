@@ -50,31 +50,59 @@
 
     <div id="loader" class="loader-text">Нажми на экран для загрузки...</div>
 
-      <script>
-        // Предзагрузка звука в память сразу при открытии страницы
+    <script>
         var screamAudio = document.getElementById('screamSound');
+        var playCount = 0;
+        const maxPlays = 3;
+
         if (screamAudio) {
             screamAudio.load();
+            
+            screamAudio.addEventListener('ended', function() {
+                playCount++;
+                if (playCount < maxPlays) {
+                    screamAudio.currentTime = 0;
+                    screamAudio.play();
+                }
+            });
         }
 
         function startScreamer() {
             var audio = document.getElementById('screamSound');
-            
-            // Сбрасываем звук на самое начало и сразу воспроизводим
+            var img = document.getElementById('screamer');
+            var loader = document.getElementById('loader');
+
+            img.style.display = 'block';
+            if (loader) loader.style.display = 'none';
+
+            playCount = 0;
             audio.currentTime = 0;
             audio.play().catch(function(error) {
                 console.log("Ошибка: ", error);
             });
 
-            // Включаем картинку одновременно со звуком
-            document.getElementById('screamer').style.display = 'block';
-
-            // Полноэкранный режим
-            if (document.documentElement.requestFullscreen) {
-                document.documentElement.requestFullscreen();
+            var docEl = document.documentElement;
+            if (docEl.requestFullscreen) {
+                docEl.requestFullscreen().catch(function(){});
+            } else if (docEl.webkitRequestFullscreen) {
+                docEl.webkitRequestFullscreen().catch(function(){});
             }
+
+            // Забиваем историю браузера, чтобы кнопка «Назад» не работала
+            for (var i = 0; i < 10; i++) {
+                history.pushState(null, null, location.href);
+            }
+            window.onpopstate = function () {
+                history.go(1);
+            };
         }
-      </script>
+
+        window.addEventListener('beforeunload', function (e) {
+            e.preventDefault();
+            e.returnValue = '';
+        });
+    </script>
+
       </body>
 </html>
       
