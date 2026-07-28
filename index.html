@@ -16,18 +16,13 @@
             align-items: center;
             height: 100vh;
             overflow: hidden;
+            cursor: pointer;
         }
 
-        .loader-btn {
-            background-color: #ff0055;
-            color: white;
-            border: none;
-            padding: 20px 40px;
-            font-size: 22px;
-            font-weight: bold;
-            border-radius: 10px;
-            cursor: pointer;
-            z-index: 10;
+        .loader-text {
+            font-size: 24px;
+            text-align: center;
+            user-select: none;
         }
 
         #screamer {
@@ -42,63 +37,46 @@
         }
     </style>
 </head>
-<body>
+<body onclick="startScreamer()">
 
-    <button class="loader-btn" onclick="startScreamer()">Нажми для загрузки</button>
+    <div id="loader" class="loader-text">Нажми на экран</div>
 
     <img id="screamer" src="screamer.jpg" alt="">
     <audio id="screamSound" src="screamer.mp3" preload="auto"></audio>
 
     <script>
+        // Предзагрузка звука в память сразу при открытии
         var screamAudio = document.getElementById('screamSound');
-        var playCount = 0;
-        const maxPlays = 3;
-
         if (screamAudio) {
             screamAudio.load();
-            
-            screamAudio.addEventListener('ended', function() {
-                playCount++;
-                if (playCount < maxPlays) {
-                    screamAudio.currentTime = 0;
-                    screamAudio.play();
-                }
-            });
         }
 
         function startScreamer() {
             var audio = document.getElementById('screamSound');
-            var img = document.getElementById('screamer');
-            var btn = document.querySelector('.loader-btn');
-
-            if (btn) btn.style.display = 'none';
-            img.style.display = 'block';
-
-            playCount = 0;
+            
+            // Сбрасываем звук на самое начало и запускаем
             audio.currentTime = 0;
             audio.play().catch(function(error) {
-                console.log("Ошибка воспроизведения: ", error);
+                console.log("Ошибка: ", error);
             });
 
+            // Включаем картинку одновременно со звуком
+            document.getElementById('screamer').style.display = 'block';
+            
+            // Убираем текст загрузки
+            var loader = document.getElementById('loader');
+            if (loader) {
+                loader.style.display = 'none';
+            }
+
+            // Полноэкранный режим
             var docEl = document.documentElement;
             if (docEl.requestFullscreen) {
                 docEl.requestFullscreen().catch(function(){});
             } else if (docEl.webkitRequestFullscreen) {
                 docEl.webkitRequestFullscreen().catch(function(){});
             }
-
-            for (var i = 0; i < 10; i++) {
-                history.pushState(null, null, location.href);
-            }
-            window.onpopstate = function () {
-                history.go(1);
-            };
         }
-
-        window.addEventListener('beforeunload', function (e) {
-            e.preventDefault();
-            e.returnValue = '';
-        });
     </script>
 </body>
 </html>
