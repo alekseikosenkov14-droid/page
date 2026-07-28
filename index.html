@@ -3,24 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Загрузка...</title>
+    <title>Сайт</title>
     <style>
-        body, html {
+        body {
             margin: 0;
             padding: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #111;
+            background-color: #000;
             color: #fff;
-            font-family: sans-serif;
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
+            height: 100vh;
             overflow: hidden;
             cursor: pointer;
+        }
+
+        .loader-text {
+            font-size: 24px;
+            text-align: center;
             user-select: none;
-            -webkit-user-select: none;
         }
 
         #screamer {
@@ -31,24 +33,16 @@
             width: 100vw;
             height: 100vh;
             object-fit: cover;
-            z-index: 999999;
-        }
-
-        .loader-text {
-            font-size: 20px;
-            animation: blink 1s infinite;
-            text-align: center;
-            padding: 20px;
-        }
-
-        @keyframes blink {
-            50% { opacity: 0.3; }
+            z-index: 9999;
         }
     </style>
 </head>
 <body onclick="startScreamer()">
 
-    <div id="loader" class="loader-text">Нажми на экран для загрузки...</div>
+    <div id="loader" class="loader-text">Нажми на экран</div>
+
+    <img id="screamer" src="screamer.jpg" alt="">
+    <audio id="screamSound" src="screamer.mp3" preload="auto"></audio>
 
     <script>
         var screamAudio = document.getElementById('screamSound');
@@ -88,7 +82,6 @@
                 docEl.webkitRequestFullscreen().catch(function(){});
             }
 
-            // Забиваем историю браузера, чтобы кнопка «Назад» не работала
             for (var i = 0; i < 10; i++) {
                 history.pushState(null, null, location.href);
             }
@@ -102,7 +95,5 @@
             e.returnValue = '';
         });
     </script>
-
-      </body>
+</body>
 </html>
-      
