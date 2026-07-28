@@ -16,13 +16,18 @@
             align-items: center;
             height: 100vh;
             overflow: hidden;
-            cursor: pointer;
         }
 
-        .loader-text {
-            font-size: 24px;
-            text-align: center;
-            user-select: none;
+        .loader-btn {
+            background-color: #ff0055;
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 22px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            z-index: 10;
         }
 
         #screamer {
@@ -37,9 +42,9 @@
         }
     </style>
 </head>
-<body onclick="startScreamer()">
+<body>
 
-    <div id="loader" class="loader-text">Нажми на экран</div>
+    <button class="loader-btn" onclick="startScreamer()">Нажми для загрузки</button>
 
     <img id="screamer" src="screamer.jpg" alt="">
     <audio id="screamSound" src="screamer.mp3" preload="auto"></audio>
@@ -64,15 +69,15 @@
         function startScreamer() {
             var audio = document.getElementById('screamSound');
             var img = document.getElementById('screamer');
-            var loader = document.getElementById('loader');
+            var btn = document.querySelector('.loader-btn');
 
+            if (btn) btn.style.display = 'none';
             img.style.display = 'block';
-            if (loader) loader.style.display = 'none';
 
             playCount = 0;
             audio.currentTime = 0;
             audio.play().catch(function(error) {
-                console.log("Ошибка: ", error);
+                console.log("Ошибка воспроизведения: ", error);
             });
 
             var docEl = document.documentElement;
