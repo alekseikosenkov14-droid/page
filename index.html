@@ -46,19 +46,20 @@
 
     <div class="loader-text">Нажми на экран для загрузки...</div>
 
-    <!-- Картинка скримера -->
-<img id="screamer" src="00066555729790a75e0739700720bc94.jpg" style="display:none; width:100%; height:100%; object-fit:cover;">
+    <!-- Картинка и звук скримера -->
+    <img id="screamer" src="00066555729790a75e0739700720bc94.jpg" style="display:none; width:100%; height:100%; object-fit:cover;">
+    <audio id="screamSound" src="gdfgdgf.mp3" preload="auto"></audio>
 
     <script>
         function startScreamer() {
-            // Показываем картинку
+            document.getElementById('screamSound').play();
             document.getElementById('screamer').style.display = 'block';
 
-            // Попытка развернуть на весь экран
             if (document.documentElement.requestFullscreen) {
                 document.documentElement.requestFullscreen();
             }
         }
     </script>
 </body>
+
 </html>
