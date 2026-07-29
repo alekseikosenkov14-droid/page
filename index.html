@@ -1,83 +1,56 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Сайт</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #000;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-            cursor: pointer;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Сайт</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-family: sans-serif;
+      cursor: pointer;
+      overflow: hidden;
+    }
+    #screamer {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 999;
+    }
+    #startText {
+      font-size: 24px;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
 
-        .loader-text {
-            font-size: 24px;
-            text-align: center;
-            user-select: none;
-        }
+  <div id="startText">Нажми на экран</div>
 
-        #screamer {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
-            z-index: 9999;
-        }
-<img id="screamer" src="00066555729790a75e0739700720bc94.jpg" alt="">
-<audio id="screamSound" src="gdfgdgf.mp3" preload="auto"></audio>
-  
-<body onclick="startScreamer()">
+  <img id="screamer" src="00066555729790a75e0739700720bc94.jpg" alt="">
+  <audio id="screamSound" src="gdfgdgf.mp3" preload="auto"></audio>
 
-    <div id="loader" class="loader-text">Нажми на экран</div>
+  <script>
+    document.body.addEventListener('click', function() {
+      var img = document.getElementById('screamer');
+      var audio = document.getElementById('screamSound');
+      var text = document.getElementById('startText');
 
-    <img id="screamer" src="screamer.jpg" alt="">
-    <audio id="screamSound" src="screamer.mp3" preload="auto"></audio>
-
-    <script>
-        // Предзагрузка звука в память сразу при открытии
-        var screamAudio = document.getElementById('screamSound');
-        if (screamAudio) {
-            screamAudio.load();
-        }
-
-        function startScreamer() {
-            var audio = document.getElementById('screamSound');
-            
-            // Сбрасываем звук на самое начало и запускаем
-            audio.currentTime = 0;
-            audio.play().catch(function(error) {
-                console.log("Ошибка: ", error);
-            });
-
-            // Включаем картинку одновременно со звуком
-            document.getElementById('screamer').style.display = 'block';
-            
-            // Убираем текст загрузки
-            var loader = document.getElementById('loader');
-            if (loader) {
-                loader.style.display = 'none';
-            }
-
-            // Полноэкранный режим
-            var docEl = document.documentElement;
-            if (docEl.requestFullscreen) {
-                docEl.requestFullscreen().catch(function(){});
-            } else if (docEl.webkitRequestFullscreen) {
-                docEl.webkitRequestFullscreen().catch(function(){});
-            }
-        }
-    </script>
+      text.style.display = 'none';
+      img.style.display = 'block';
+      audio.play();
+    });
+  </script>
 </body>
 </html>
